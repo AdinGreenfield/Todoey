@@ -18,6 +18,7 @@ protocol AddItemDelegate {
 class AddItemViewController: UIViewController {
 
 
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var itemTextField: UITextField!
     
     var item : String = ""
@@ -26,7 +27,8 @@ class AddItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        addButton.layer.cornerRadius = 20
+        addButton.clipsToBounds = true
         // Do any additional setup after loading the view.
     }
     
