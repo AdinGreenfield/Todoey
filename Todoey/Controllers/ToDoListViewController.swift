@@ -8,14 +8,30 @@
 
 import UIKit
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: UITableViewController, AddItemDelegate {
+   
     
-    let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+    
+    var defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.tableView.separatorStyle = .none
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String]{
+            itemArray = items
+        }
+        
+    }
+    
+    func userAddedNewItem(item: String) {
+        itemArray.append(item)
+        
+        defaults.set(itemArray, forKey: "TodoListArray")
+        
+        self.tableView.reloadData()
     }
     
     //MARK: - TableView Datasource Methods
@@ -52,7 +68,21 @@ class ToDoListViewController: UITableViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToAddItem" {
+            
+            let addItemVC = segue.destination as! AddItemViewController
+            
+            addItemVC.delegate = self
+            
+        }
+    }
 
+    
+    //MARK: - AddItemDelegate Method
+//    func userAddedNewItem(item: String) {
 
+//    }
+    
 }
 
